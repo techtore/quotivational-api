@@ -1,4 +1,5 @@
 class QuoteSerializer
   include FastJsonapi::ObjectSerializer
-  attributes 
+  attributes :body, :created_at
+  belongs_to :author
 end
