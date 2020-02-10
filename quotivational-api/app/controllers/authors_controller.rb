@@ -7,15 +7,18 @@ class AuthorsController < ApplicationController
 
     def show
         author = Author.find(params[:id])
-        render json: author
+        options = {
+            include: []
+        }
+        render json: QuoteSerializer.new(quote, options)
     end
 
     def create
         author = Author.new(author_params)
         if author.save 
             render json: author
-        else 
-            status: 400
+        # else 
+        #     status: 400
         end
     end
     private
