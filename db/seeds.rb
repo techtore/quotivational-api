@@ -8,5 +8,5 @@
 Author.delete_all
 Quote.delete_all
 
-author_a = Author.create([{name: 'Rumi'}])
+author_a = Author.create(name: 'Rumi')
 quote_a = Quote.create(body: "Stop acting so small. You are the universe in ecstatic motion.", author: author_a)
