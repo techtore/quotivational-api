@@ -18,6 +18,9 @@ class AuthorsController < ApplicationController
             status: 400
         end
     end
-
+    private
+    def author_params
+        params.require(:author).permit(:name)
+    end 
 
 end
