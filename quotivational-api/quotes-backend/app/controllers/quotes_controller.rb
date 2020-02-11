@@ -18,9 +18,9 @@ class QuotesController < ApplicationController
     def create
         quote = Quote.new(quote_params)
         if quote.save 
-            render json: quote
-        # else 
-        #     status: 400
+            render json: quote, status: :created
+        else 
+            render json: quote.errors, status: :unprocessable_entity
         end
     end
 
