@@ -11,12 +11,28 @@ function getQuotes(){
     return fetch(QUOTES_URL)
     .then(rep => rep.json())
     .then(quotes => { 
-        quotes.forEach(quote => {
-            console.log(quote)
+            const quotesContainer = document.querySelector('#quotes-container');
+            quotesContainer.innerHTML = '';
+            quotes.forEach(quote => {
+                newQuote = new Quote(quote);
+                newQuote.renderQuote();
+            })
         })
 
-    })
 }
+// function getLocations() {
+//     fetch(BASE_URL + '/locations')
+//       .then(resp => resp.json())
+//       .then(data => {
+//         const locationContainer = document.querySelector('#location-container');
+//         locationContainer.innerHTML = '';
+//         data.forEach(location => {
+//           console.log(location);
+//           let newLocation = new Location(location);
+//           newLocation.renderLocation();
+//         });
+//       });
+//   }
 
 function getAuthors(){
     return fetch(AUTHORS_URL)
