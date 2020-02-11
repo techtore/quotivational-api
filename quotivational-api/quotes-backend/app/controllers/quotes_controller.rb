@@ -2,7 +2,7 @@ class QuotesController < ApplicationController
     def index 
         quotes = Quote.all
         options = {
-            include: [:author, :body]
+            include: [:author, :body, :image_url]
         }
         render json: QuoteSerializer.new(quotes, options)
     end
@@ -10,7 +10,7 @@ class QuotesController < ApplicationController
     def show
         quote = Quote.find(params[:id])
         options = {
-            include: [:author, :body]
+            include: [:author, :body, :image_url]
         }
         render json: QuoteSerializer.new(quote, options)
     end

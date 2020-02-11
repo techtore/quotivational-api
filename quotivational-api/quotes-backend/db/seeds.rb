@@ -9,4 +9,4 @@ Author.delete_all
 Quote.delete_all
 
 author_a = Author.create(name: 'Rumi')
-quote_a = Quote.create(body: "Stop acting so small. You are the universe in ecstatic motion.", author: author_a)
+quote_a = Quote.create(body: "Stop acting so small. You are the universe in ecstatic motion.", image_url: "www_jpl_nasa_gov-news.png", author: author_a)

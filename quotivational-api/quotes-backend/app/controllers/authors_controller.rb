@@ -2,15 +2,16 @@ class AuthorsController < ApplicationController
 
     def index 
         authors = Author.all
+        options = {
+            include: [:name]
+        }
         render json: authors
     end
 
     def show
         author = Author.find(params[:id])
-        options = {
-            include: []
-        }
-        render json: QuoteSerializer.new(quote, options)
+       
+        render json: author
     end
 
     def create
