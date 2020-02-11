@@ -1,7 +1,10 @@
 class QuotesController < ApplicationController
     def index 
         quotes = Quote.all
-        render json: QuoteSerializer.new(quotes)
+        options = {
+            include: [:author, :body]
+        }
+        render json: QuoteSerializer.new(quotes, options)
     end
 
     def show
@@ -23,6 +26,6 @@ class QuotesController < ApplicationController
 
     private
     def quote_params
-        params.require(:quote).permit(:body, :author_id, :created_at)
+        params.require(:quote).permit(:body, :author_id, :created_at, author_attributes: [:name])
     end 
 end
