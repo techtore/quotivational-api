@@ -4,7 +4,7 @@ body {
   }
   
   header {
-    background-color: #4caf50;
+    background-color: #793c8875;
     margin: 0 auto;
     height: 50px;
   }
@@ -24,10 +24,10 @@ body {
   }
   
   div.quote-card {
-    background-color: #eeeeee;
+    background-color: #9edbee;
     height: 350px;
     width: 300px;
-    box-shadow: 10px 10px grey;
+    box-shadow: 5px 5px rgb(212, 206, 206);
     padding: 10px;
     border-radius: 10px;
   }
@@ -47,8 +47,18 @@ body {
   button {
     font-size: .65em;
     color: #fff;
-    background-color: green;
+    background-color: rgba(81, 0, 128, 0.61);
     border-radius: 10px;
+  }
+
+  input[type=submit] {
+    background-color: rgba(81, 0, 128, 0.61);
+    border-radius: 10px;
+    color: white;
+    /* padding: 10px 32px; */
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
   }
   
   button.release {
