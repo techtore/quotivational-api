@@ -8,7 +8,7 @@ window.addEventListener('load', () => {
 
 //server requests
 function getQuotes() {
-    return fetch(QUOTES_URL)
+    fetch(QUOTES_URL)
     .then(resp => resp.json())
     .then(data => {
         const quotesContainer = document.querySelector('.quotes-container');
@@ -21,81 +21,40 @@ function getQuotes() {
       });
         
     }
-        class Quote {
-            constructor(quoteObj){
-                this.id = quoteObj.id
-                this.body = quoteObj.body
-                this.image = quoteObj.image_url
-                this.author = quoteObj.author
+    class Quote {
+        constructor(quoteObj){
+            this.id = quoteObj.id
+            this.body = quoteObj.body
+            this.image = quoteObj.image_url
+            this.author = quoteObj.author.name
         
-            }
+        }
         
 
-         renderQuotes(){
-            //intance method 
-            // let quotesContainer = document.querySelector('.quotes-container')
-            // quotesContainer.innerHTML = ""
-            // let quoteCard = document.createElement('div')
-            // quoteCard.dataset.id = this.id
-            // quoteCard.className = 'quote-card'
-            // let quoteTextDiv = document.createElement('div')
-            // quoteTextDiv.className = 'quote-text'
-            // let quoteBodyDiv = document.createElement('div')
-            // let quoteBody = document.createElement('p')
-            // quoteBody.innerHTML = this.body
-            // quoteBodyDiv.append(quoteBody)
-            // let quoteAuthorDiv = document.createElement('div')
-            // let quoteAuthor = document.createElement('h4')
-            // quoteAuthor.innerText = `-${this.author}`
-            // quoteAuthorDiv.append(quoteAuthor)
-            // const deleteBtn = document.createElement('button')
-            // deleteBtn.className = `deletebtn`
-            // deleteBtn.innerText = `Delete`
-            // deleteBtn.dataset.id = this.id
-            // deleteBtn.addEventListener('click', (e) => {
-            //     let deleteResponse = confirm(`Are you sure you want to delete this quote?`)
-            //     if (deleteResponse == true) {
-            //         deletQuoteCard(e)
-            //     }
-            // quoteTextDiv.append(quoteBodyDiv)
-            // quoteTextDiv.append(quoteAuthorDiv)
-            // quoteTextDiv.append(deleteBtn)
-            // quoteCard.append(quoteTextDiv)
-            // const quoteImgDiv = document.createElement('div')
-            // quoteImgDiv.className('quote-img')
-            // const quoteImg = document.createElement('img')
-            // quoteImg.src = this.image
-            // quoteImg.alt = 'Quote Image'
-            // quoteImgDiv.append(quoteImg)
-            // quoteCard.append(quoteImgDiv)
-            // quotesContainer.append(quoteCard)
-            
+        renderQuotes(){
+            // intance method 
+            let quotesContainer = document.querySelector('.quotes-container')
+            quotesContainer.innerHTML = `
+            <div class = "quote-card" data-id="${this.id}">
+                <img src="${this.image}" alt="Image" style="width:100%">
+                <div class="quote-container">
+                    <p>${this.author}</p>
+                    <h4>${this.body}</h4>
+                    <button data-author-id="${this.author}">Delete Quote</button>
+                </div>
+            </div>
+            `
         }
     }
-           
-      
-// function getAuthors(){
-//     return fetch(AUTHORS_URL)
-//     .then(rep => rep.json())
-//     .then(authors => { 
-//         authors.forEach(author => {
-//             console.log(author)
-//         })
 
-//     })
+function addQuote(){
 
+        
+}
 
-// function renderAuthors(authors){
+function deleteQuote(){
 
-// }
-
-// function addQuote(){
-
-// }
-
-// function deleteQuote(){
-
-// }
+}
 
 //DOM rendering
 
