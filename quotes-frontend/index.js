@@ -4,6 +4,7 @@ const QUOTES_URL = 'http://localhost:3000/quotes'
 
 window.addEventListener('load', () => {
     getQuotes()
+    displayQuoteForm()
 })
 
 //server requests
@@ -36,7 +37,6 @@ function getQuotes() {
             let quotesContainer = document.querySelector('.quotes-container')
             quotesContainer.innerHTML = `
             <div class = "quote-card" data-id="${this.id}">
-                <img src="${this.image}" alt="Image" style="width:100%">
                 <div class="quote-container">
                     <p>${this.author}</p>
                     <h4>${this.body}</h4>
@@ -46,15 +46,60 @@ function getQuotes() {
             `
         }
     }
+    function clearForm(){
+        let quoteFormDiv = document.getElementById("quote-form")
+        quoteFormDiv.innerHTML = ''
+    }
+
+    function displayQuoteForm(){
+        let quoteFormDiv = document.getElementById("quote-form")
+        let html = `
+        <form onsubmit="addQuote();return false;">
+        <label>Body</label>
+        <input type="text_area" id="body"><br>
+        <label>Author</label>
+        <input type="text" id="author_name"><br>
+        <label>Created</label>
+        <input type="date" id="created_at"><br>
+        <input type="submit" value="Create Quote">
+        `
+        quoteFormDiv.innerHTML = html
+    }
 
 function addQuote(){
+    const quote = {
+        body: document.getElementBy('body').value,
+        author: document.getElementById('author_name').value,
+        date_added: document.getElementById('created_at').value
+    }
+    fetch(QUOTES_URL, {
+        method: "POST",
+        body: JSON.stringify(quote),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
 
+    })
+    .then(resp = resp.json())
+    .then(quote =>{
+        document.querySelector('.quotes-container').innerHTML += `
+        <div class = "quote-card" data-id="${quote.id}">
+        <div class="quote-container">
+            <p>${quote.author}</p>
+            <h4>${quote.body}</h4>
+            <button data-author-id="${quote.author}">Delete Quote</button>
+        </div>
+    </div>
+        `
+        clearForm()
+    })
         
 }
 
-function deleteQuote(){
+// function deleteQuote(){
 
-}
+// }
 
 //DOM rendering
 
