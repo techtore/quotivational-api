@@ -30,7 +30,7 @@ class Author {
     renderAuthors(){
         let ul = document.querySelector(".author-list ul");
         ul.innerHTML += `
-        <li>Author: ${this.name} - <button class="view-auth data-author-id="${this.id}">View Quotes</button></li>
+        <li>Author: ${this.name} - <button class="view-auth" data-author-id="${this.id}">View Quotes</button></li>
         `
        document.querySelector('.view-auth').addEventListener('click', (e) => {
            viewAuthorPage(e)
@@ -43,12 +43,29 @@ class Author {
 
 function viewAuthorPage(event){
     event.preventDefault
-    fetch(AUTHORS_URL + `${event.target.dataset[author-id]}`)
+    
+    let auth_det = document.querySelector('.auth-details p')
+    auth_det.innerHTML = ""
+
+    fetch(AUTHORS_URL + `${event.target.dataset["author-id"]}`)
     .then(resp => resp.json())
     .then(data => {
         let auth = new Author(data)
 
-        
+        auth_det.innerHTML = `
+        Author: ${auth.name}
+        `;
+        let add_quote_btn = document.createElement("button");
+        add_quote_btn.setAttribute("data-author-id", auth.id);
+        add_quote_btn.setAttribute('class', 'add_quote');
+        add_quote_btn.innerHTML = "Add Quote"
+        add_quote_btn.addEventListener('click', (e) => {
+            displayQuoteForm(e)
+        });
+        auth_det.append(add_quote_btn);
+
+
+
     })
 }
 //server requests
