@@ -29,12 +29,27 @@ class Author {
     }
     renderAuthors(){
         let ul = document.querySelector(".author-list ul");
-        let li = document.createElement("li");
-        li.innerHTML = this.name
+        ul.innerHTML += `
+        <li>Author: ${this.name} - <button class="view-auth data-author-id="${this.id}">View Quotes</button></li>
+        `
+       document.querySelector('.view-auth').addEventListener('click', (e) => {
+           viewAuthorPage(e)
+       });
+
+       
+        
+    }
+}
+
+function viewAuthorPage(event){
+    event.preventDefault
+    fetch(AUTHORS_URL + `${event.target.dataset[author-id]}`)
+    .then(resp => resp.json())
+    .then(data => {
+        let auth = new Author(data)
 
         
-        ul.appendChild('li');
-    }
+    })
 }
 //server requests
 function getQuotes() {
