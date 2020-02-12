@@ -23,9 +23,9 @@ body {
     padding-bottom: 30px;
   }
   
-  div.card {
+  div.quote-card {
     background-color: #eeeeee;
-    height: 250px;
+    height: 350px;
     width: 300px;
     box-shadow: 10px 10px grey;
     padding: 10px;
@@ -54,6 +54,14 @@ body {
   button.release {
     float: right;
     background-color: #E1332D;
+  }
+
+  img {
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    width: 150px;
   }
   
   @media only screen and (min-width: 500px) {
