@@ -24,7 +24,7 @@ class AuthorsController < ApplicationController
     end
     private
     def author_params
-        params.require(:author).permit(:name)
+        params.require(:author).permit(:name, quotes_attributes: [:body, :created_at])
     end 
 
 end
