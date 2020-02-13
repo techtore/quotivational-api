@@ -26,6 +26,7 @@ function getAuthors() {
 class Author {
     constructor(authorObj){
         this.name = authorObj.name
+        this.id = authorObj.id
     }
     renderAuthors(){
         let ul = document.querySelector(".author-list ul");
@@ -43,11 +44,13 @@ class Author {
 
 function viewAuthorPage(event){
     event.preventDefault
-    
+
     let auth_det = document.querySelector('.auth-details p')
     auth_det.innerHTML = ""
 
-    fetch(AUTHORS_URL + `${event.target.dataset["author-id"]}`)
+    //author's id currently undefined
+
+    fetch(AUTHORS_URL + `/${event.target.dataset['authorId']}`)
     .then(resp => resp.json())
     .then(data => {
         let auth = new Author(data)
