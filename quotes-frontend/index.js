@@ -8,6 +8,42 @@ window.addEventListener('load', () => {
 
 })
 
+class Author {
+    constructor(authorObj){
+        this.name = authorObj.name
+        this.id = authorObj.id
+    }
+    renderAuthor(){
+        let ul = document.querySelector(".author-list ul");
+        let li = document.createElement('li');
+        li.innerHTML += `Author: ${this.name}`
+        let viewBtn = document.createElement("button");
+        viewBtn.setAttribute("data-author-id", this.id);
+        viewBtn.setAttribute("class", "view-auth");
+        viewBtn.setAttribute("id", `"view-auth-${this.id}"`);
+        viewBtn.innerText = "View Author"
+        li.append(viewBtn)
+
+        let addQuoteBtn = document.createElement("button");
+        addQuoteBtn.setAttribute("data-author-id", this.id);
+        addQuoteBtn.setAttribute("class", "add-quote");
+        addQuoteBtn.setAttribute("id", `"add-quote-${this.id}"`);
+        addQuoteBtn.innerText = "Add Quote"
+        li.append(addQuoteBtn)
+        // `<li>Author: ${this.name} - <button class="view-auth" data-author-id="${this.id}" id="view-auth-${this.id}">View Quotes</button><button class="add-quote" data-author-id="${this.id}" id="add-quote-${this.id}">Add Quote</button></li>
+        // `
+
+        ul.appendChild(li);
+
+       viewBtn.addEventListener('click', (e) => {
+           viewAuthorPage(e)
+       });  
+       addQuoteBtn.addEventListener('click', (e) => {
+        displayQuoteForm(e)
+    });  
+    }
+}
+
 function getAuthors() {
     fetch(AUTHORS_URL)
     .then(resp => resp.json())
@@ -17,68 +53,14 @@ function getAuthors() {
         data.forEach(author => {
           console.log(author);
           let newAuthor = new Author(author);
-          newAuthor.renderAuthors(author);
+          newAuthor.renderAuthor(author);
         });
       });
 }
 
-class Author {
-    constructor(authorObj){
-        this.name = authorObj.name
-        this.id = authorObj.id
-    }
-    renderAuthors(){
-        let ul = document.querySelector(".author-list ul");
-        ul.innerHTML += `
-        <li>Author: ${this.name} - <button class="view-auth" data-author-id="${this.id}">View Quotes</button><button class="add-quote" data-author-id="${this.id}">Add Quote</button></li>
-        `
-       document.querySelector('.view-auth').addEventListener('click', (e) => {
-           viewAuthorPage(e)
-       });  
-       document.querySelector('.add-quote').addEventListener('click', (e) => {
-        displayQuoteForm(e)
-    });  
-    }
-}
+// function renderAuthor(){
 
-function viewAuthorPage(event){
-    event.preventDefault
-
-    let auth_det = document.querySelector('.auth-details p')
-    auth_det.innerHTML = ""
-
-    //author's id currently undefined
-
-    fetch(AUTHORS_URL + `/${event.target.dataset['authorId']}`)
-    .then(resp => resp.json())
-    .then(data => {
-        let auth = new Author(data)
-
-        auth_det.innerHTML = `
-            ${auth.name}
-        `;
-        let add_quote_btn = document.createElement("button");
-        add_quote_btn.setAttribute("data-author-id", auth.id);
-        add_quote_btn.setAttribute('class', 'add_quote');
-        add_quote_btn.innerHTML = "Add Quote"
-        add_quote_btn.addEventListener('click', (e) => {
-            displayQuoteForm(e)
-        });
-        auth_det.append(add_quote_btn);
-        let quoteListDiv = document.querySelector('.list-auth-quotes ul');
-        quoteListDiv.innerHTML = ''
-
-        if (data["quotes"].length > 0) {
-            data["quotes"].forEach(quote => {
-              let newQuote = new Quote(quote);
-              newQuote.renderQuotes();
-            } )
-          } else {
-            auth_det.innerHTML += `No quotes saved for this Author` 
-          }
-      
-    })
-}
+// }
 
 function displayAuthorForm(){
     let authFormDiv = document.getElementById("author-form")
@@ -118,58 +100,77 @@ function addAuthor(){
     })
 }
 
-//server requests
-function getQuotes() {
-    fetch(QUOTES_URL)
+function viewAuthorPage(event){
+    event.preventDefault
+
+    let auth_det = document.querySelector('.auth-details p')
+    auth_det.innerHTML = ""
+
+    fetch(AUTHORS_URL + `/${event.target.dataset['authorId']}`)
     .then(resp => resp.json())
     .then(data => {
-        const quotesContainer = document.querySelector('.quotes-container');
-        quotesContainer.innerHTML = '';
-        data.forEach(quote => {
-          console.log(quote);
-          let newQuote = new Quote(quote);
-          newQuote.renderQuotes(quote);
-        });
-      });
-        
-    }
-    class Quote {
-        constructor(quoteObj){
-            this.id = quoteObj.id
-            this.body = quoteObj.body
-            this.date_created = quoteObj.created_at
-            this.author = quoteObj.author
-        
-        }
-        
-        renderQuotes(){
-            let quotesContainer = document.querySelector('.quotes-container')
-            quotesContainer.innerHTML = `
-            <div class = "quote-card" data-id="${this.id}">
-                <div class="quote-container">
-                    <p>${this.body}</p>
-                </div>
-            </div>
-            `
-        }
-    }
-    function clearForm(){
-        let quoteFormDiv = document.getElementById("quote-form")
-        quoteFormDiv.innerHTML = ''
-    }
+        let auth = new Author(data)
 
-    function displayQuoteForm(){
-        let quoteFormDiv = document.getElementById("quote-form")
-        let html = `
-        <form onsubmit="addQuote(); return false;">
-        <label>Body</label>
-        <input type="textarea" id="body"><br>
-        <input type="submit" value="Create Quote">
-        </form>
-        `
-        quoteFormDiv.innerHTML = html
+        auth_det.innerHTML = `
+            ${auth.name}
+        `;
+        let add_quote_btn = document.createElement("button");
+        add_quote_btn.setAttribute("data-author-id", auth.id);
+        add_quote_btn.setAttribute('class', 'add_quote');
+        add_quote_btn.innerHTML = "Add Quote"
+        add_quote_btn.addEventListener('click', (e) => {
+            displayQuoteForm(e)
+        });
+        auth_det.append(add_quote_btn);
+        let quoteListDiv = document.querySelector('.list-auth-quotes ul');
+        quoteListDiv.innerHTML = ''
+
+        if (data["quotes"].length > 0) {
+            data["quotes"].forEach(quote => {
+              let newQuote = new Quote(quote);
+              newQuote.renderQuotes();
+            } )
+          } else {
+            auth_det.innerHTML += `No quotes saved for this Author` 
+          }
+      
+    })
+}
+
+//QUOTES
+class Quote {
+    constructor(quoteObj){
+        this.id = quoteObj.id
+        this.body = quoteObj.body
+        this.date_created = quoteObj.created_at
+        this.author = quoteObj.author
     
     }
+    
+    renderQuotes(){
+        let quotesContainer = document.querySelector('.quotes-container')
+        quotesContainer.innerHTML = `
+        <div class = "quote-card" data-id="${this.id}">
+            <div class="quote-container">
+                <p>${this.body}</p>
+            </div>
+        </div>
+        `
+    }
+}
+
+function displayQuoteForm(){
+    let quoteFormDiv = document.getElementById("quote-form")
+    let html = `
+    <form onsubmit="addQuote(); return false;">
+    <label>Body</label>
+    <input type="textarea" id="body"><br>
+    <input type="submit" value="Create Quote">
+    </form>
+    `
+    quoteFormDiv.innerHTML = html
+
+}
 
 function addQuote() {
     const quote = {
@@ -200,6 +201,26 @@ function addQuote() {
     })
         
 }
+// function getQuotes() {
+//     fetch(QUOTES)
+//     .then(resp => resp.json())
+//     .then(data => {
+//         const quotesContainer = document.querySelector('.quotes-container');
+//         quotesContainer.innerHTML = '';
+//         data.forEach(quote => {
+//           console.log(quote);
+//           let newQuote = new Quote(quote);
+//           newQuote.renderQuotes(quote);
+//         });
+//       });
+        
+//     }
+
+//     function clearForm(){
+//         let quoteFormDiv = document.getElementById("quote-form")
+//         quoteFormDiv.innerHTML = ''
+//     }
+
 
 // function deleteQuote(){
 
@@ -212,11 +233,5 @@ function addQuote() {
 //and render this author's quotes
 // }
 
-// function renderAuthor(){
-// click on card, show that quote for the author
-//render a single author?
-// }
 
-// function renderAddButton(author){
-// when clicked it adds quote to author
-// }
+
