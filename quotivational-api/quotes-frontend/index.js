@@ -56,7 +56,7 @@ function viewAuthorPage(event){
         let auth = new Author(data)
 
         auth_det.innerHTML = `
-        Author: ${auth.name}
+            ${auth.name}
         `;
         let add_quote_btn = document.createElement("button");
         add_quote_btn.setAttribute("data-author-id", auth.id);
@@ -66,11 +66,25 @@ function viewAuthorPage(event){
             displayQuoteForm(e)
         });
         auth_det.append(add_quote_btn);
+        let quoteListDiv = document.querySelector('.list-auth-quotes ul');
+        quoteListDiv.innerHTML = ''
 
-
-
+        if (data["quotes"].length > 0) {
+            data["quotes"].forEach(quote => {
+              let newQuote = new Quote(quote);
+              newQuote.renderQuotes();
+            } )
+          } else {
+            auth_det.innerHTML += `No quotes saved for this Author` 
+          }
+      
     })
 }
+
+function addAuthor(){
+// posts to create route
+}
+
 //server requests
 function getQuotes() {
     fetch(QUOTES_URL)
@@ -91,7 +105,7 @@ function getQuotes() {
             this.id = quoteObj.id
             this.body = quoteObj.body
             this.date_created = quoteObj.created_at
-            this.author = quoteObj.author.name
+            this.author = quoteObj.author
         
         }
         
@@ -100,7 +114,6 @@ function getQuotes() {
             quotesContainer.innerHTML = `
             <div class = "quote-card" data-id="${this.id}">
                 <div class="quote-container">
-                    <p>${this.author}</p>
                     <h4>${this.body}</h4>
                     <h5>${this.date_created}</h5>
                 </div>
