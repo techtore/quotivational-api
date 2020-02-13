@@ -30,16 +30,14 @@ class Author {
         addQuoteBtn.setAttribute("id", `"add-quote-${this.id}"`);
         addQuoteBtn.innerText = "Add Quote"
         li.append(addQuoteBtn)
-        // `<li>Author: ${this.name} - <button class="view-auth" data-author-id="${this.id}" id="view-auth-${this.id}">View Quotes</button><button class="add-quote" data-author-id="${this.id}" id="add-quote-${this.id}">Add Quote</button></li>
-        // `
 
         ul.appendChild(li);
 
-       viewBtn.addEventListener('click', (e) => {
+        viewBtn.addEventListener('click', (e) => {
            viewAuthorPage(e)
-       });  
-       addQuoteBtn.addEventListener('click', (e) => {
-        displayQuoteForm(e)
+        });  
+        addQuoteBtn.addEventListener('click', (e) => {
+            displayQuoteForm(e)
     });  
     }
 }
@@ -114,21 +112,14 @@ function viewAuthorPage(event){
         auth_det.innerHTML = `
             ${auth.name}
         `;
-        let add_quote_btn = document.createElement("button");
-        add_quote_btn.setAttribute("data-author-id", auth.id);
-        add_quote_btn.setAttribute('class', 'add_quote');
-        add_quote_btn.innerHTML = "Add Quote"
-        add_quote_btn.addEventListener('click', (e) => {
-            displayQuoteForm(e)
-        });
-        auth_det.append(add_quote_btn);
+       
         let quoteListDiv = document.querySelector('.list-auth-quotes ul');
         quoteListDiv.innerHTML = ''
 
         if (data["quotes"].length > 0) {
             data["quotes"].forEach(quote => {
               let newQuote = new Quote(quote);
-              newQuote.renderQuotes();
+              newQuote.renderQuote();
             } )
           } else {
             auth_det.innerHTML += `No quotes saved for this Author` 
@@ -141,16 +132,17 @@ function viewAuthorPage(event){
 class Quote {
     constructor(quoteObj){
         this.id = quoteObj.id
-        this.body = quoteObj.body
+        this.content = quoteObj.body
+        this.authorId = quoteObj.author_id
     
     }
     
-    renderQuotes(){
+    renderQuote(){
         let quotesContainer = document.querySelector('.quotes-container')
-        quotesContainer.innerHTML = `
+        quotesContainer.innerHTML += `
         <div class = "quote-card" data-id="${this.id}">
             <div class="quote-container">
-                <p>${this.body}</p>
+                <p>${this.content}</p>
             </div>
         </div>
         `
@@ -159,7 +151,7 @@ class Quote {
 
 function displayQuoteForm(e){
     let quoteFormDiv = document.getElementById("quote-form")
-    const authorId = e.target.dataset.quoteAuthorId
+    const authorId = e.target.dataset.authorId
     let html = `
     <form onsubmit="addQuote(); return false;">
     <input id="author_id" name="author_id" type="hidden" value="${authorId}">
@@ -168,36 +160,41 @@ function displayQuoteForm(e){
     <input type="submit" value="Create Quote">
     </form>
     `
+    // let form = document.querySelector('form')
+    // form.addEventListener("submit", addQuote)
     quoteFormDiv.innerHTML = html
 
 }
 
 function addQuote() {
+    // event.preventDefault()
     const quote = {
         body: document.querySelector('#body').value,
         authorId: document.querySelector('#author_id').value
     }
-    fetch(QUOTES_URL,{
+    fetch(QUOTES_URL, {
         method: "POST",
         body: JSON.stringify(quote),
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-
     })
     .then(resp => resp.json())
     .then(quote => {
-        document.querySelector('.quotes-container').innerHTML +=
-        `
-        <div class = "quote-card" data-id="${quote.id}">
-            <div class="quote-container">
+        let newQuote = new Quote(quote);
+        newQuote.renderQuote(quote);
+        // document.querySelector('.quotes-container').innerHTML +=
+        // `
+        // <div class = "quote-card" data-id="${quote.id}">
+        //     <div class="quote-container">
                 
-                <h4>${quote.body}</h4>
+        //         <h4>${quote.body}</h4>
                 
-            </div>
-        </div>
-    `
+        //     </div>
+        // </div>
+    // `
+
         
     })
         
