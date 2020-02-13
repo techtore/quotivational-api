@@ -2,9 +2,9 @@ class AuthorsController < ApplicationController
 
     def index 
         authors = Author.all
-        options = {
-            include: [:name]
-        }
+        # options = {
+        #     include: [:name]
+        # }
         render json: authors
     end
 
