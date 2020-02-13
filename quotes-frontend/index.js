@@ -132,7 +132,7 @@ function viewAuthorPage(event){
 class Quote {
     constructor(quoteObj){
         this.id = quoteObj.id
-        this.content = quoteObj.body
+        this.body = quoteObj.body
         this.authorId = quoteObj.author_id
     
     }
@@ -142,7 +142,7 @@ class Quote {
         quotesContainer.innerHTML += `
         <div class = "quote-card" data-id="${this.id}">
             <div class="quote-container">
-                <p>${this.content}</p>
+                <p>${this.body}</p>
             </div>
         </div>
         `
@@ -172,6 +172,7 @@ function addQuote() {
         body: document.querySelector('#body').value,
         authorId: document.querySelector('#author_id').value
     }
+    
     fetch(QUOTES_URL, {
         method: "POST",
         body: JSON.stringify(quote),
