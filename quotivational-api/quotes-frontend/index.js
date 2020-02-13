@@ -5,7 +5,6 @@ const QUOTES_URL = 'http://localhost:3000/quotes'
 window.addEventListener('load', () => {
     getAuthors()
     // getQuotes()
-    displayQuoteForm()
 
 })
 
@@ -31,14 +30,14 @@ class Author {
     renderAuthors(){
         let ul = document.querySelector(".author-list ul");
         ul.innerHTML += `
-        <li>Author: ${this.name} - <button class="view-auth" data-author-id="${this.id}">View Quotes</button></li>
+        <li>Author: ${this.name} - <button class="view-auth" data-author-id="${this.id}">View Quotes</button><button class="add-quote" data-author-id="${this.id}">Add Quote</button></li>
         `
        document.querySelector('.view-auth').addEventListener('click', (e) => {
            viewAuthorPage(e)
-       });
-
-       
-        
+       });  
+       document.querySelector('.add-quote').addEventListener('click', (e) => {
+        displayQuoteForm(e)
+    });  
     }
 }
 
@@ -81,8 +80,42 @@ function viewAuthorPage(event){
     })
 }
 
+function displayAuthorForm(){
+    let authFormDiv = document.getElementById("author-form")
+    let html = `
+    <form onsubmit="addAuthor(); return false;">
+    <label>Name</label>
+    <input type="text" id="name"><br>
+
+    <input type="submit" value="Create Author">
+    </form>
+    `
+    authFormDiv.innerHTML = html
+
+}
+
 function addAuthor(){
-// posts to create route
+    const author = {
+        name: document.querySelector('#name').value,
+        
+    }
+    fetch(AUTHORS_URL,{
+        method: "POST",
+        body: JSON.stringify(author),
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+
+    })
+    .then(resp => resp.json())
+    .then(auth => {
+        let ul = document.querySelector(".author-list ul");
+        ul.innerHTML += `
+        <li>Author: ${auth.name} - <button class="view-auth" data-author-id="${auth.id}">View Quotes</button></li>
+        `
+        
+    })
 }
 
 //server requests
@@ -114,8 +147,7 @@ function getQuotes() {
             quotesContainer.innerHTML = `
             <div class = "quote-card" data-id="${this.id}">
                 <div class="quote-container">
-                    <h4>${this.body}</h4>
-                    <h5>${this.date_created}</h5>
+                    <p>${this.body}</p>
                 </div>
             </div>
             `
@@ -132,11 +164,6 @@ function getQuotes() {
         <form onsubmit="addQuote(); return false;">
         <label>Body</label>
         <input type="textarea" id="body"><br>
-        <label>Author</label>
-        <input type="text" id="author_name"><br>
-        <label>Created</label>
-        <input type="date" id="created_at"><br>
-
         <input type="submit" value="Create Quote">
         </form>
         `
@@ -147,8 +174,6 @@ function getQuotes() {
 function addQuote() {
     const quote = {
         body: document.querySelector('#body').value,
-        author: document.querySelector('#author_name').value,
-        created_at: document.querySelector('#created_at').value
     }
     fetch(QUOTES_URL,{
         method: "POST",
@@ -165,9 +190,9 @@ function addQuote() {
         `
         <div class = "quote-card" data-id="${quote.id}">
             <div class="quote-container">
-                <p>${quote.author}</p>
+                
                 <h4>${quote.body}</h4>
-                <h5>${quote.created_at}</h5>
+                
             </div>
         </div>
     `

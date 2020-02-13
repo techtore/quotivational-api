@@ -18,8 +18,8 @@ class AuthorsController < ApplicationController
         author = Author.new(author_params)
         if author.save 
             render json: author
-        # else 
-        #     status: 400
+        else 
+        render json: author.errors, status: :unprocessable_entity
         end
     end
     private

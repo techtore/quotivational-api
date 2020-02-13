@@ -12,7 +12,6 @@ class QuotesController < ApplicationController
     end
 
     def create
-        binding.pry
         quote = Quote.new(quote_params)
         if quote.save 
             render json: quote, status: :created
