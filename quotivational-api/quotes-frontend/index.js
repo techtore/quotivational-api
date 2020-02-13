@@ -142,8 +142,6 @@ class Quote {
     constructor(quoteObj){
         this.id = quoteObj.id
         this.body = quoteObj.body
-        this.date_created = quoteObj.created_at
-        this.author = quoteObj.author
     
     }
     
@@ -159,10 +157,12 @@ class Quote {
     }
 }
 
-function displayQuoteForm(){
+function displayQuoteForm(e){
     let quoteFormDiv = document.getElementById("quote-form")
+    const authorId = e.target.dataset.quoteAuthorId
     let html = `
     <form onsubmit="addQuote(); return false;">
+    <input id="author_id" name="author_id" type="hidden" value="${authorId}">
     <label>Body</label>
     <input type="textarea" id="body"><br>
     <input type="submit" value="Create Quote">
@@ -175,6 +175,7 @@ function displayQuoteForm(){
 function addQuote() {
     const quote = {
         body: document.querySelector('#body').value,
+        authorId: document.querySelector('#author_id').value
     }
     fetch(QUOTES_URL,{
         method: "POST",
