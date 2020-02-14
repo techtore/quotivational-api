@@ -107,11 +107,6 @@ function viewAuthorPage(event){
     fetch(AUTHORS_URL + `/${event.target.dataset['authorId']}`)
     .then(resp => resp.json())
     .then(data => {
-        let auth = new Author(data)
-
-        auth_det.innerHTML = `
-            ${auth.name}
-        `;
        
         let quoteListDiv = document.querySelector('.list-auth-quotes ul');
         quoteListDiv.innerHTML = ''
@@ -194,6 +189,7 @@ function addQuote() {
 
 function deleteQuote(){
     event.preventDefault();
+    let quoteCard = document.querySelector(".quote-card")
     
    fetch(QUOTES_URL + `/${event.target.dataset.quoteId}`, {
         method: "DELETE",
@@ -203,6 +199,7 @@ function deleteQuote(){
         }
     })
         .then(event.target.parentElement.remove())
+        .then(quoteCard.remove())
     
 
 }
