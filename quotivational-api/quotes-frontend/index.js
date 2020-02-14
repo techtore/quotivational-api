@@ -143,15 +143,18 @@ class Quote {
         <div class = "quote-card" data-id="${this.id}">
             <div class="quote-container">
                 <p>${this.body}</p>
+                <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
             </div>
         </div>
-        `
+        ` 
+        document.querySelector(".dlt-quote-btn").addEventListener("click", deleteQuote)
     }
 }
 
-function displayQuoteForm(e){
+function displayQuoteForm(event){
+    event.preventDefault();
     let quoteFormDiv = document.getElementById("quote-form")
-    const authorId = e.target.dataset.authorId
+    let authorId = event.target.dataset.authorId
     let html = `
     <form onsubmit="addQuote(); return false;">
     <input id="author_id" name="author_id" type="hidden" value="${authorId}">
@@ -167,10 +170,10 @@ function displayQuoteForm(e){
 }
 
 function addQuote() {
-    // event.preventDefault()
     const quote = {
         body: document.querySelector('#body').value,
-        authorId: document.querySelector('#author_id').value
+        //this is parameter in backend
+        author_id: document.getElementById('author_id').value
     }
     
     fetch(QUOTES_URL, {
@@ -184,22 +187,29 @@ function addQuote() {
     .then(resp => resp.json())
     .then(quote => {
         let newQuote = new Quote(quote);
-        newQuote.renderQuote(quote);
-        // document.querySelector('.quotes-container').innerHTML +=
-        // `
-        // <div class = "quote-card" data-id="${quote.id}">
-        //     <div class="quote-container">
-                
-        //         <h4>${quote.body}</h4>
-                
-        //     </div>
-        // </div>
-    // `
-
-        
+        newQuote.renderQuote(quote); 
     })
         
 }
+
+function deleteQuote(){
+    event.preventDefault();
+    
+   fetch(QUOTES_URL + `/${event.target.dataset.quoteId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+        .then(event.target.parentElement.remove())
+    
+
+}
+    function clearForm(){
+        let quoteFormDiv = document.getElementById("quote-form")
+        quoteFormDiv.innerHTML = ''
+    }
 // function getQuotes() {
 //     fetch(QUOTES)
 //     .then(resp => resp.json())
@@ -220,10 +230,6 @@ function addQuote() {
 //         quoteFormDiv.innerHTML = ''
 //     }
 
-
-// function deleteQuote(){
-
-// }
 
 //DOM rendering
 
