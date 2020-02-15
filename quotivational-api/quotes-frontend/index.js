@@ -78,7 +78,7 @@ function addAuthor(){
     const author = {
         name: document.querySelector('#name').value,    
     }
-    
+
     fetch(AUTHORS_URL,{
         method: "POST",
         body: JSON.stringify(author),
@@ -155,8 +155,9 @@ class Quote {
             </div>
         
         ` 
-        document.querySelector(".dlt-quote-btn").addEventListener("click", () => deleteQuote())
-        
+        let dltBtns = document.querySelectorAll(".dlt-quote-btn")
+        dltBtns.forEach(btn => btn.addEventListener("click", deleteQuote))
+      
     }
 }
 
