@@ -107,16 +107,25 @@ function viewAuthorPage(event){
     fetch(AUTHORS_URL + `/${event.target.dataset['authorId']}`)
     .then(resp => resp.json())
     .then(data => {
+        let auth = new Author(data)
+
+        auth_det.innerHTML = `
+            ${auth.name}
+        `;
        
         let quoteListDiv = document.querySelector('.list-auth-quotes ul');
         quoteListDiv.innerHTML = ''
+        let quotesContainer = document.querySelector(".quotes-container")
+        quotesContainer.innerHTML = ""
 
         if (data["quotes"].length > 0) {
             data["quotes"].forEach(quote => {
+                
               let newQuote = new Quote(quote);
               newQuote.renderQuote();
             } )
           } else {
+            
             auth_det.innerHTML += `No quotes saved for this Author` 
           }
       
@@ -135,14 +144,17 @@ class Quote {
     renderQuote(){
         let quotesContainer = document.querySelector('.quotes-container')
         quotesContainer.innerHTML += `
-        <div class = "quote-card" data-id="${this.id}">
-            <div class="quote-container">
-                <p>${this.body}</p>
-                <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
+    
+            <div class = "quote-card" data-id="${this.id}">
+                <div class="quote-container">
+                    <p>${this.body}</p>
+                    <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
+                </div>
             </div>
-        </div>
+        
         ` 
         document.querySelector(".dlt-quote-btn").addEventListener("click", deleteQuote)
+        
     }
 }
 
@@ -183,6 +195,7 @@ function addQuote() {
     .then(quote => {
         let newQuote = new Quote(quote);
         newQuote.renderQuote(quote); 
+        clearQuoteForm();
     })
         
 }
@@ -203,10 +216,12 @@ function deleteQuote(){
     
 
 }
-    function clearForm(){
-        let quoteFormDiv = document.getElementById("quote-form")
-        quoteFormDiv.innerHTML = ''
-    }
+
+function clearQuoteForm(){
+    let quoteFormDiv = document.getElementById("quote-form")
+    quoteFormDiv.innerHTML = ''
+}
+
 // function getQuotes() {
 //     fetch(QUOTES)
 //     .then(resp => resp.json())

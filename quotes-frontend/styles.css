@@ -25,11 +25,13 @@ body {
   
   div.quote-card {
     background-color: #9edbee;
-    height: 150px;
+    height: 200px;
     width: 250px;
     box-shadow: 5px 5px rgb(212, 206, 206);
     padding: 10px;
+    margin: 10px;
     border-radius: 10px;
+    /* display: inline-block; */
   }
   
   p {
@@ -61,20 +63,14 @@ body {
     margin: 4px 2px;
     cursor: pointer;
   }
-  
-  button.release {
-    float: right;
-    background-color: #E1332D;
-  }
 
-  img {
 
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px;
-    width: 150px;
+  /* .column {
+    float: left;
+    width: 25%;
+    padding: 0 10px;
   }
-  
+   */
   @media only screen and (min-width: 500px) {
     main {
       grid-template-columns: 1fr 1fr;
