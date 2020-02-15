@@ -76,9 +76,9 @@ function displayAuthorForm(){
 
 function addAuthor(){
     const author = {
-        name: document.querySelector('#name').value,
-        
+        name: document.querySelector('#name').value,    
     }
+
     fetch(AUTHORS_URL,{
         method: "POST",
         body: JSON.stringify(author),
@@ -110,7 +110,7 @@ function viewAuthorPage(event){
         let auth = new Author(data)
 
         auth_det.innerHTML = `
-            ${auth.name}
+            <h1>${auth.name}</h1>
         `;
        
         let quoteListDiv = document.querySelector('.list-auth-quotes ul');
@@ -148,13 +148,16 @@ class Quote {
             <div class = "quote-card" data-id="${this.id}">
                 <div class="quote-container">
                     <p>${this.body}</p>
-                    <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
+                    <div class="dlt-button">
+                        <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
+                    </div>
                 </div>
             </div>
         
         ` 
-        document.querySelector(".dlt-quote-btn").addEventListener("click", deleteQuote)
-        
+        let dltBtns = document.querySelectorAll(".dlt-quote-btn")
+        dltBtns.forEach(btn => btn.addEventListener("click", deleteQuote))
+      
     }
 }
 
@@ -213,8 +216,6 @@ function deleteQuote(){
     })
         .then(event.target.parentElement.remove())
         .then(quoteCard.remove())
-    
-
 }
 
 function clearQuoteForm(){
@@ -222,33 +223,8 @@ function clearQuoteForm(){
     quoteFormDiv.innerHTML = ''
 }
 
-// function getQuotes() {
-//     fetch(QUOTES)
-//     .then(resp => resp.json())
-//     .then(data => {
-//         const quotesContainer = document.querySelector('.quotes-container');
-//         quotesContainer.innerHTML = '';
-//         data.forEach(quote => {
-//           console.log(quote);
-//           let newQuote = new Quote(quote);
-//           newQuote.renderQuotes(quote);
-//         });
-//       });
-        
-//     }
-
-//     function clearForm(){
-//         let quoteFormDiv = document.getElementById("quote-form")
-//         quoteFormDiv.innerHTML = ''
-//     }
 
 
-//DOM rendering
-
-// function renderCard(author){
-// have an add quote Button(renderAddButton(author))
-//and render this author's quotes
-// }
 
 
 

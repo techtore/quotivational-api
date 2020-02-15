@@ -3,35 +3,63 @@ body {
     padding: 0;
   }
   
-  header {
-    background-color: #793c8875;
+  header.topnav {
+    background-color: #793c8859;
     margin: 0 auto;
     height: 50px;
   }
   
-  header h2 {
+  header.topnav h2 {
     padding: 10px;
     margin: 0;
+    font-family: serif;
+    font-weight: 100;
+    color:  #63d0f1;
+    text-align: center;
+    /* display: inline; */
+  }
+
+  header.topnav a {
+    padding: 10px;
+    margin: 0;
+    font-family: serif;
+    font-weight: 100;
+    color:  #63d0f1;
+    display: inline;
+    text-align: left;
+  }
+  h1 {
+    font-family: serif;
+    font-weight: 100;
+    color: rgba(81, 0, 128, 0.76);
   }
   
-  main {
+  /* main {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
     grid-gap: 20px;
     padding-top: 10px;
     padding-bottom: 30px;
+  } */
+  div.quote-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-gap: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
   }
   
   div.quote-card {
     background-color: #9edbee;
-    height: 200px;
+    height: 250px;
     width: 250px;
     box-shadow: 5px 5px rgb(212, 206, 206);
     padding: 10px;
     margin: 10px;
     border-radius: 10px;
-    /* display: inline-block; */
+    display: inline-grid;
   }
   
   p {
@@ -39,6 +67,7 @@ body {
     color: black;
     font-family: sans-serif;
     text-align: center;
+    padding-top: 10px;
   }
   
   li {
@@ -46,12 +75,17 @@ body {
     list-style: none;
     padding-right: 20px;
   }
+  div.dlt-button {
+    width: 50%;
+    position: absolute;
+  }
   
   button {
     font-size: .65em;
     color: #fff;
     background-color: rgba(81, 0, 128, 0.61);
     border-radius: 10px;
+   
   }
 
   input[type=submit] {
@@ -71,7 +105,7 @@ body {
     padding: 0 10px;
   }
    */
-  @media only screen and (min-width: 500px) {
+  @media only screen and (min-width: 400px) {
     main {
       grid-template-columns: 1fr 1fr;
     }
