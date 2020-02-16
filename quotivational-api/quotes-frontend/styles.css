@@ -87,7 +87,14 @@ body {
     border-radius: 10px;
    
   }
-
+  /* .dlt-quote-btn {
+    font-size: .65em;
+    color: #fff;
+    background-color: rgba(81, 0, 128, 0.61);
+    border-radius: 10px;
+    float: center;
+    width: 50%;
+  } */
   input[type=submit] {
     background-color: rgba(81, 0, 128, 0.61);
     border-radius: 10px;
