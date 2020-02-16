@@ -92,9 +92,10 @@ function addAuthor(){
     .then(auth => {
         let ul = document.querySelector(".author-list ul");
         ul.innerHTML += `
-        <li>Author: ${auth.name} - <button class="view-auth" data-author-id="${auth.id}">View Quotes</button></li>
+        <li>Author: ${auth.name} - <button class="view-auth" data-author-id="${auth.id}">View Author</button><button data-author-id="${auth.id}" class="add-quote" id="add-quote-${auth.id}">Add Quote</button></li>
         `
-        
+        let newAuth = new Author(auth);
+        newAuth.renderAuthor(auth); 
     })
 }
 
