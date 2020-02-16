@@ -13,6 +13,7 @@ class Author {
         this.id = authorObj.id
     }
     renderAuthor(){
+       
         let ul = document.querySelector(".author-list ul");
         let li = document.createElement('li');
         li.innerHTML += `Author: ${this.name}`
@@ -37,7 +38,7 @@ class Author {
         });  
         addQuoteBtn.addEventListener('click', (e) => {
             displayQuoteForm(e)
-    });  
+        });  
     }
 }
 
@@ -48,16 +49,11 @@ function getAuthors() {
         const quotesContainer = document.querySelector('.quotes-container');
         quotesContainer.innerHTML = '';
         data.forEach(author => {
-          console.log(author);
           let newAuthor = new Author(author);
           newAuthor.renderAuthor(author);
         });
-      });
+    });
 }
-
-// function renderAuthor(){
-
-// }
 
 function displayAuthorForm(){
     let authFormDiv = document.getElementById("author-form")
@@ -91,10 +87,14 @@ function addAuthor(){
     .then(auth => {
         let ul = document.querySelector(".author-list ul");
         ul.innerHTML += `
-        <li>Author: ${auth.name} - <button class="view-auth" data-author-id="${auth.id}">View Author</button><button data-author-id="${auth.id}" class="add-quote" id="add-quote-${auth.id}">Add Quote</button></li>
+        <li>Author: ${auth.name} <button class="view-auth" data-author-id="${auth.id}">View Author</button><button data-author-id="${auth.id}" class="add-quote" id="add-quote-${auth.id}">Add Quote</button></li>
         `
-        let newAuth = new Author(auth);
-        newAuth.renderAuthor(auth); 
+        attachClickToViewAuthBtns();
+        attachClickToAddQuoteBtns();
+        // let newAuth = new Author(auth);
+        // newAuth.renderAuthor(auth); 
+
+        clearAuthForm();
     })
 }
 
@@ -132,7 +132,29 @@ function viewAuthorPage(event){
     })
 }
 
-//QUOTES
+function clearAuthForm(){
+    let authorFormDiv = document.getElementById("author-form")
+    authorFormDiv.innerHTML = ''
+}
+
+function attachClickToViewAuthBtns() {
+
+    let viewAuthLi = document.querySelectorAll(".author-list ul li button.view-auth")
+    viewAuthLi.forEach(btn => btn.addEventListener('click', (e) => {
+        viewAuthorPage(e)
+    }))
+    
+}
+
+function attachClickToAddQuoteBtns() {
+
+    let addQuoteBtn = document.querySelectorAll(".author-list ul li button.add-quote")
+    addQuoteBtn.forEach(btn => btn.addEventListener('click', (e) => {
+        displayQuoteForm(e)
+    }))
+}
+
+//-------------------------QUOTES-----------------------------------------------
 class Quote {
     constructor(quoteObj){
         this.id = quoteObj.id
@@ -145,16 +167,19 @@ class Quote {
         let quotesContainer = document.querySelector('.quotes-container')
         quotesContainer.innerHTML += `
     
-            <div class = "quote-card" data-id="${this.id}">
+            <div class="quote-card" data-id="${this.id}">
                 <div class="quote-container">
+                <span><button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button></span>
                     <p>${this.body}</p>
-                    <div class="dlt-button">
-                        <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
-                    </div>
                 </div>
             </div>
         
         ` 
+        //only first card delete button is clickable
+        // document.querySelector("span .dlt-quote-btn").addEventListener("click", deleteQuote)
+
+        //deleting buttons from each card
+
         let dltBtns = document.querySelectorAll(".dlt-quote-btn")
         dltBtns.forEach(btn => btn.addEventListener("click", deleteQuote))
       
@@ -182,6 +207,7 @@ function addQuote() {
         body: document.querySelector('#body').value,
         author_id: document.getElementById('author_id').value
     }
+    let auth_det = document.querySelector('.auth-details p')
     
     fetch(QUOTES_URL, {
         method: "POST",
@@ -196,13 +222,18 @@ function addQuote() {
         let newQuote = new Quote(quote);
         newQuote.renderQuote(quote); 
         clearQuoteForm();
+        
+        auth_det.innerHTML = ""
     })
         
 }
 
-function deleteQuote(){
+function deleteQuote(event){
+    // prevents other listeners of the same event from being called.
+    // event.stopImmediatePropagation();
     event.preventDefault();
-    let quoteCard = document.querySelector(".quote-card")
+
+  
     
    fetch(QUOTES_URL + `/${event.target.dataset.quoteId}`, {
         method: "DELETE",
@@ -211,8 +242,9 @@ function deleteQuote(){
             'Accept': 'application/json'
         }
     })
-        .then(event.target.parentElement.remove())
-        .then(quoteCard.remove())
+   
+    event.target.parentElement.parentElement.parentElement.remove()
+ 
 }
 
 function clearQuoteForm(){
