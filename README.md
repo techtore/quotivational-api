@@ -23,5 +23,3 @@ User can add an author using the Add Author link at the top left of the page. On
 
 All contributions are welcome. 
 
-# License
-[MIT]
