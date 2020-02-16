@@ -233,6 +233,7 @@ function deleteQuote(event){
     // prevents other listeners of the same event from being called.
     // event.stopImmediatePropagation();
     event.preventDefault();
+    let parentElement = event.target.parentElement.parentElement.parentElement
 
   
     
@@ -244,7 +245,7 @@ function deleteQuote(event){
         }
     })
    
-    event.target.parentElement.parentElement.parentElement.remove()
+    .then(parentElement.remove())
  
 }
 
