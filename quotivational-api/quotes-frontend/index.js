@@ -103,6 +103,7 @@ function viewAuthorPage(event){
 
     let auth_det = document.querySelector('.auth-details p')
     auth_det.innerHTML = ""
+   
 
     fetch(AUTHORS_URL + `/${event.target.dataset['authorId']}`)
     .then(resp => resp.json())
@@ -112,7 +113,7 @@ function viewAuthorPage(event){
         auth_det.innerHTML = `
             <h1>${auth.name}</h1>
         `;
-       
+
         let quoteListDiv = document.querySelector('.list-auth-quotes ul');
         quoteListDiv.innerHTML = ''
         let quotesContainer = document.querySelector(".quotes-container")
