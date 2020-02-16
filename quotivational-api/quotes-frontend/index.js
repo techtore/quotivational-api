@@ -91,6 +91,8 @@ function addAuthor(){
         `
         attachClickToViewAuthBtns();
         attachClickToAddQuoteBtns();
+        // let newAuth = new Author(auth);
+        // newAuth.renderAuthor(auth); 
 
         clearAuthForm();
     })
@@ -174,6 +176,10 @@ class Quote {
             </div>
         
         ` 
+        //only first card delete button is clickable
+        // document.querySelector("span .dlt-quote-btn").addEventListener("click", deleteQuote)
+
+        //deleting buttons from each card
 
         let dltBtns = document.querySelectorAll(".dlt-quote-btn")
         dltBtns.forEach(btn => btn.addEventListener("click", deleteQuote))
@@ -224,9 +230,12 @@ function addQuote() {
 }
 
 function deleteQuote(event){
+    // prevents other listeners of the same event from being called.
+    // event.stopImmediatePropagation();
     event.preventDefault();
-
     let parentElement = event.target.parentElement.parentElement.parentElement
+
+  
     
    fetch(QUOTES_URL + `/${event.target.dataset.quoteId}`, {
         method: "DELETE",
