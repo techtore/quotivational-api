@@ -13,6 +13,7 @@ class Author {
         this.id = authorObj.id
     }
     renderAuthor(){
+       
         let ul = document.querySelector(".author-list ul");
         let li = document.createElement('li');
         li.innerHTML += `Author: ${this.name}`
@@ -37,7 +38,7 @@ class Author {
         });  
         addQuoteBtn.addEventListener('click', (e) => {
             displayQuoteForm(e)
-    });  
+        });  
     }
 }
 
@@ -48,16 +49,11 @@ function getAuthors() {
         const quotesContainer = document.querySelector('.quotes-container');
         quotesContainer.innerHTML = '';
         data.forEach(author => {
-          console.log(author);
           let newAuthor = new Author(author);
           newAuthor.renderAuthor(author);
         });
-      });
+    });
 }
-
-// function renderAuthor(){
-
-// }
 
 function displayAuthorForm(){
     let authFormDiv = document.getElementById("author-form")
@@ -95,6 +91,8 @@ function addAuthor(){
         `
         let newAuth = new Author(auth);
         newAuth.renderAuthor(auth); 
+
+        clearAuthForm();
     })
 }
 
@@ -132,7 +130,12 @@ function viewAuthorPage(event){
     })
 }
 
-//QUOTES
+function clearAuthForm(){
+    let authorFormDiv = document.getElementById("author-form")
+    authorFormDiv.innerHTML = ''
+}
+
+//-------------------------QUOTES-----------------------------------------------
 class Quote {
     constructor(quoteObj){
         this.id = quoteObj.id
@@ -145,16 +148,15 @@ class Quote {
         let quotesContainer = document.querySelector('.quotes-container')
         quotesContainer.innerHTML += `
     
-            <div class = "quote-card" data-id="${this.id}">
+            <div class="quote-card" data-id="${this.id}">
                 <div class="quote-container">
+                <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
                     <p>${this.body}</p>
-                    <div class="dlt-button">
-                        <button class="dlt-quote-btn" data-quote-id="${this.id}">Delete Quote</button>
-                    </div>
                 </div>
             </div>
         
         ` 
+        // document.querySelector(".dlt-quote-btn").addEventListener("click", deleteQuote)
         let dltBtns = document.querySelectorAll(".dlt-quote-btn")
         dltBtns.forEach(btn => btn.addEventListener("click", deleteQuote))
       
@@ -200,7 +202,7 @@ function addQuote() {
         
 }
 
-function deleteQuote(){
+function deleteQuote(event){
     event.preventDefault();
     let quoteCard = document.querySelector(".quote-card")
     
@@ -211,7 +213,7 @@ function deleteQuote(){
             'Accept': 'application/json'
         }
     })
-        .then(event.target.parentElement.remove())
+        .then(event.target.remove())
         .then(quoteCard.remove())
 }
 
