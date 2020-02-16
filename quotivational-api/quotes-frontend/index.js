@@ -4,7 +4,6 @@ const QUOTES_URL = 'http://localhost:3000/quotes'
 
 window.addEventListener('load', () => {
     getAuthors()
-    // getQuotes()
 
 })
 
@@ -174,8 +173,6 @@ function displayQuoteForm(event){
     <input type="submit" value="Create Quote">
     </form>
     `
-    // let form = document.querySelector('form')
-    // form.addEventListener("submit", addQuote)
     quoteFormDiv.innerHTML = html
 
 }
@@ -183,7 +180,6 @@ function displayQuoteForm(event){
 function addQuote() {
     const quote = {
         body: document.querySelector('#body').value,
-        //this is parameter in backend
         author_id: document.getElementById('author_id').value
     }
     
