@@ -46,8 +46,7 @@ function getAuthors() {
     fetch(AUTHORS_URL)
     .then(resp => resp.json())
     .then(data => {
-        const quotesContainer = document.querySelector('.quotes-container');
-        quotesContainer.innerHTML = '';
+    
         data.forEach(author => {
           let newAuthor = new Author(author);
           newAuthor.renderAuthor(author);
@@ -59,10 +58,10 @@ function displayAuthorForm(){
     let authFormDiv = document.getElementById("author-form")
     let html = `
     <form onsubmit="addAuthor(); return false;">
-    <label>Name</label>
-    <input type="text" id="name"><br>
+        <label>Name</label>
+        <input type="text" id="name"><br>
 
-    <input type="submit" value="Create Author">
+        <input type="submit" value="Create Author">
     </form>
     `
     authFormDiv.innerHTML = html
