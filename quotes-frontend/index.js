@@ -46,6 +46,7 @@ function getAuthors() {
     fetch(AUTHORS_URL)
     .then(resp => resp.json())
     .then(data => {
+        
     
         data.forEach(author => {
           let newAuthor = new Author(author);

@@ -2,9 +2,7 @@ class AuthorsController < ApplicationController
 
     def index 
         authors = Author.all
-        # options = {
-        #     include: [:name]
-        # }
+       
         render json: authors
     end
 
@@ -22,6 +20,7 @@ class AuthorsController < ApplicationController
         render json: author.errors, status: :unprocessable_entity
         end
     end
+
     private
     def author_params
         params.require(:author).permit(:name, quotes_attributes: [:body])
