@@ -1,6 +1,6 @@
 # Quotivational
 
-Quotivational is a JavaSCript web applicatio that allows a user to keep track of motivational quotations and their authors. It is built using a Ruby on Rails API utilizing a has_many and belongs_to association.
+Quotivational is a JavaScript web application that allows a user to keep track of motivational quotations and their authors. It is built using a Ruby on Rails API utilizing a has_many and belongs_to association.
 
 # Installation
 
